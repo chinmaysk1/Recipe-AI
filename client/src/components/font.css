@@ -1,0 +1,11 @@
+
+
+@font-face {
+    font-family: 'ProductSansRegular';
+    src: local('ProductSansRegular'), url(../assets/fonts/ProductSansRegular.ttf) format('truetype');
+  }
+
+  @font-face {
+    font-family: 'ProductSansBold';
+    src: local('ProductSansBold'), url(../assets/fonts/ProductSansBold.ttf) format('truetype');
+  }

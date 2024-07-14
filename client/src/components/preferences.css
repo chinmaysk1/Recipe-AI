@@ -1,0 +1,83 @@
+.container {
+    text-align: center;
+    width: 100vw;
+    height: 100vh; /* Adjusted to viewport height */
+    font-family: 'ProductSansRegular';
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+.heading {
+    text-align: center;
+    margin-bottom: 10px;
+    letter-spacing: 1px;
+    font-size: 14px;
+}
+
+.subHeading {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.question {
+    margin-bottom: 20px;
+}
+
+.optionLabelContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 50px;
+    overflow-x: auto; /* Allow horizontal scrolling */
+}
+
+.optionLabel {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.input {
+    display: none;
+}
+
+.circle {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 5px solid grey;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 30px;
+    color: #4CAF50; /* Color of selected icon */
+    transition: background-color 0.2s ease, border-color 0.2s ease; /* Smooth transitions */
+    cursor: pointer;
+}
+
+.circle:hover {
+    border-color: #333;
+}
+
+.button {
+    background-color: #4CAF50;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-top: 5%;
+}
+
+.scrollButton {
+    background-color: #ddd;
+    color: #333;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+}
