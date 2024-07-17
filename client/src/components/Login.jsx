@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Navigate, Link } from 'react-router-dom';
 import { doSignInWithEmailAndPassword, doSignInWithGoogle } from '../firebase/auth';
 import { useAuth } from '../contexts/authContext';
@@ -9,14 +9,41 @@ const Login = () => {
     const [password, setPassword] = useState('');
     const [isSigningIn, setIsSigningIn] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
+    const [preferences, setPreferences] = useState(() => {
+        // Get preferences from local storage
+        const savedPreferences = localStorage.getItem('preferences');
+        return savedPreferences ? JSON.parse(savedPreferences) : {};
+      });
 
-    const onSubmit = async (e) => {
+      const onSubmit = async (e) => {
         e.preventDefault();
         if (!isSigningIn) {
             setIsSigningIn(true);
             try {
-                await doSignInWithEmailAndPassword(email, password);
-                // setUserLoggedIn(true); // You may not need this if using the context
+                const userCredential = await doSignInWithEmailAndPassword(email, password);
+                const userEmail = userCredential.user.email;
+    
+                // Update the preferences state with the user's email
+                const updatedPreferences = { ...preferences, email: userEmail };
+    
+                try {
+                    let response = await fetch("http://localhost:5050/record", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify(updatedPreferences),
+                    });
+    
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+    
+                    console.log(updatedPreferences);
+                    setPreferences(null);
+                } catch (error) {
+                    console.error('A problem occurred with your fetch operation: ', error);
+                }
             } catch (err) {
                 setErrorMessage(err.message);
             } finally {
@@ -30,8 +57,7 @@ const Login = () => {
         if (!isSigningIn) {
             setIsSigningIn(true);
             try {
-                await doSignInWithGoogle(); // Google sign-in typically doesn't need email/password
-                // setUserLoggedIn(true); // You may not need this if using the context
+                await doSignInWithGoogle();
             } catch (err) {
                 setErrorMessage(err.message);
             } finally {

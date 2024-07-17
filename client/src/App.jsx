@@ -6,7 +6,7 @@ import { onAuthStateChanged } from "firebase/auth";
 
 const App = () => {
   const location = useLocation();
-  const showNavbar = location.pathname !== '/';
+  const showNavbar = location.pathname !== '/' && location.pathname !== '/login' && location.pathname !== '/register';
 
   return (
     <div className="w-full">

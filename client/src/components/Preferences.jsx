@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import { height } from '@fortawesome/free-solid-svg-icons/fa0';
 import "./font.css";
 import "./preferences.css";
+import { useAuth } from '../contexts/authContext';
 
 
 // Styles object
@@ -107,10 +108,10 @@ const Preferences = () => {
         setCurrentQuestion(currentQuestion - 1);
     };
 
-    // Function to handle finishing preferences setup
     const handleFinish = () => {
-        // Save preferences to database (or perform any final action)
-        navigate('/login'); // Redirect to login or dashboard
+        // Save preferences to local storage or context
+        localStorage.setItem('preferences', JSON.stringify(preferences));
+        navigate('/home'); // Redirect to login to trigger saving preferences
     };
 
     return (

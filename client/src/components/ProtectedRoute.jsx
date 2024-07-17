@@ -5,8 +5,6 @@ import { Navigate } from "react-router-dom";
 
 const ProtectedRoute = ({ children }) => {
   const { currentUser, loading } = useAuth();
-  console.log(loading)
-  console.log(currentUser)
   if (loading) {
     return <span className="loading loading-dots loading-lg"></span>;
   }

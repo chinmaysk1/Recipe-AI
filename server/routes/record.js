@@ -13,14 +13,14 @@ const router = express.Router();
 
 // This section will help you get a list of all the records.
 router.get("/", async (req, res) => {
-  let collection = await db.collection("records");
+  let collection = await db.collection("preferences");
   let results = await collection.find({}).toArray();
   res.send(results).status(200);
 });
 
 // This section will help you get a single record by id
 router.get("/:id", async (req, res) => {
-  let collection = await db.collection("records");
+  let collection = await db.collection("preferences");
   let query = { _id: new ObjectId(req.params.id) };
   let result = await collection.findOne(query);
 
@@ -31,17 +31,40 @@ router.get("/:id", async (req, res) => {
 // This section will help you create a new record.
 router.post("/", async (req, res) => {
   try {
-    let newDocument = {
-      name: req.body.name,
-      position: req.body.position,
-      level: req.body.level,
-    };
-    let collection = await db.collection("records");
-    let result = await collection.insertOne(newDocument);
-    res.send(result).status(204);
+    let collection = await db.collection("preferences");
+    let existingDocument = await collection.findOne({ email: req.body.email });
+    
+    if (existingDocument) {
+      // Update existing record
+      const updates = {
+        $set: {
+          cookingGoals: req.body.cookingGoals,
+          cookingSkills: req.body.cookingSkills,
+          diets: req.body.diets,
+          excludedIngredients: req.body.excludedIngredients,
+          favoriteCuisines: req.body.favoriteCuisines,
+          foodAllergies: req.body.foodAllergies,
+        },
+      };
+      let result = await collection.updateOne({ email: req.body.email }, updates);
+      res.send(result).status(200);
+    } else {
+      // Create new record
+      let newDocument = {
+        email: req.body.email,
+        cookingGoals: req.body.cookingGoals,
+        cookingSkills: req.body.cookingSkills,
+        diets: req.body.diets,
+        excludedIngredients: req.body.excludedIngredients,
+        favoriteCuisines: req.body.favoriteCuisines,
+        foodAllergies: req.body.foodAllergies,
+      };
+      let result = await collection.insertOne(newDocument);
+      res.send(result).status(204);
+    }
   } catch (err) {
     console.error(err);
-    res.status(500).send("Error adding record");
+    res.status(500).send("Error adding or updating record");
   }
 });
 
@@ -51,13 +74,16 @@ router.patch("/:id", async (req, res) => {
     const query = { _id: new ObjectId(req.params.id) };
     const updates = {
       $set: {
-        name: req.body.name,
-        position: req.body.position,
-        level: req.body.level,
+        cookingGoals: req.body.cookingGoals,
+        cookingSkills: req.body.cookingSkills,
+        diets: req.body.diets,
+        excludedIngredients: req.body.excludedIngredients,
+        favoriteCuisines: req.body.favoriteCuisines,
+        foodAllergies: req.body.foodAllergies,
       },
     };
 
-    let collection = await db.collection("records");
+    let collection = await db.collection("preferences");
     let result = await collection.updateOne(query, updates);
     res.send(result).status(200);
   } catch (err) {
@@ -71,7 +97,7 @@ router.delete("/:id", async (req, res) => {
   try {
     const query = { _id: new ObjectId(req.params.id) };
 
-    const collection = db.collection("records");
+    const collection = db.collection("preferences");
     let result = await collection.deleteOne(query);
 
     res.send(result).status(200);
