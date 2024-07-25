@@ -49,7 +49,7 @@ const Preferences = () => {
         {
             title: 'What are your cooking goals?',
             options: ['Save Time', 'Save Money', 'Eat to gain', 'Eat to lose'],
-            multiSelect: false,
+            multiSelect: true,
             stateKey: 'cookingGoals',
         },
         {

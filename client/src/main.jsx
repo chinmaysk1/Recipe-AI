@@ -16,6 +16,7 @@ import Home from "./components/Home";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { useState } from "react";
 import { AuthProvider } from "./contexts/authContext";
+import ContextProvider from "./contexts/geminiContext";
 
 
 const router = createBrowserRouter([
@@ -84,7 +85,9 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <AuthProvider>
-      <RouterProvider router={router} />
+        <ContextProvider>
+          <RouterProvider router={router} />
+        </ContextProvider>
     </AuthProvider>
   </React.StrictMode>
 );

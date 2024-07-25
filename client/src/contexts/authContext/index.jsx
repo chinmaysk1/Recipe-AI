@@ -1,7 +1,8 @@
 import React, { useContext, useState, useEffect } from "react";
 import { auth } from "../../firebase/firebase";
-import { GoogleAuthProvider } from "firebase/auth";
+import { GoogleAuthProvider, signOut } from "firebase/auth";
 import { onAuthStateChanged } from "firebase/auth";
+import { Navigate } from "react-router-dom";
 
 const AuthContext = React.createContext({});
 
@@ -53,12 +54,23 @@ export function AuthProvider({ children }) {
     setLoading(false);
   }
 
+  const logout = async () => {
+    try {
+      await signOut(auth);
+      console.log("Logged out successfully");
+      <Navigate to='/login' />
+    } catch (error) {
+      console.error("Error logging out:", error);
+    }
+  };
+
   const value = {
     userLoggedIn,
     isEmailUser,
     isGoogleUser,
     currentUser,
-    setCurrentUser, // You might not need to expose setCurrentUser unless necessary
+    setCurrentUser,
+    logout
   };
 
   return (

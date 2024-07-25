@@ -1,0 +1,177 @@
+.sidebar {
+    min-height: 100vh;
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: #f0f4f9;
+    padding: 25px 15px;
+    z-index: 2;
+}
+
+.sidebar .icon {
+    width: 20px;
+    font-size: 17px;
+}
+
+.sidebar .menu {
+    display: block;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.sidebar .new-chat {
+    margin-top: 50px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 15px;
+    background-color: #e6eaf1;
+    border-radius: 50px;
+    font-size: 14px;
+    color: gray;
+    cursor: pointer;
+    justify-content: center;
+}
+
+.sidebar .recent {
+    display: flex;
+    flex-direction: column;
+    animation: fadeIn 1.5s;
+}
+
+.sidebar .recent-title {
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+
+.sidebar .recent-entry {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    padding-right: 40px;
+    border-radius: 50px;
+    color: #282828;
+    cursor: pointer;
+}
+
+.sidebar .recent-entry:hover {
+    background-color: #e2e6eb;
+}
+
+.sidebar .bottom {
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar .bottom-item {
+    padding-right: 10px;
+    cursor: pointer;
+}
+
+
+
+
+.settings-popup-overlay {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    max-width: 500px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    padding: 20px;
+    z-index: 1000;
+    overflow-y: auto;
+    max-height: 80vh;
+}
+
+.settings-popup-overlay h5 {
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+    text-align: center;
+    color: #333;
+}
+
+.settings-popup-overlay .select-container {
+    margin-bottom: 15px;
+}
+
+.settings-popup-overlay p {
+    margin-bottom: 10px;
+    font-weight: bold;
+    color: #555;
+}
+
+.settings-popup-overlay .select-container:last-child {
+    margin-bottom: 0;
+}
+
+.save-button-container {
+    display: flex;
+    justify-content: flex-end; /* Align button to the right */
+}
+
+.save-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #4CAF50; /* Green background */
+    color: white; /* Text color */
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    flex: right;
+}
+
+.save-button:hover {
+    background-color: #45a049; /* Darker green when hovered */
+}
+
+.settings-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.settings-header .close {
+    cursor: pointer;
+    border-radius: 50px;
+    padding: 0.3em;
+}
+
+.settings-header .close:hover {
+    background-color: #e2e6eb;
+}
+
+.loader-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    color: #333;
+    border-radius: 8px;
+}
+
+.loader-overlay::after {
+    content: '';
+    border: 8px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 8px solid #3498db;
+    width: 40px;
+    height: 40px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}

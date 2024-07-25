@@ -18,14 +18,18 @@ router.get("/", async (req, res) => {
   res.send(results).status(200);
 });
 
-// This section will help you get a single record by id
-router.get("/:id", async (req, res) => {
-  let collection = await db.collection("preferences");
-  let query = { _id: new ObjectId(req.params.id) };
-  let result = await collection.findOne(query);
+router.get("/:email", async (req, res) => {
+  try {
+    let collection = await db.collection("preferences");
+    let query = { email: req.params.email };
+    let result = await collection.findOne(query);
 
-  if (!result) res.send("Not found").status(404);
-  else res.send(result).status(200);
+    if (!result) res.status(404).send("Preferences not found");
+    else res.status(200).json(result); // Use .json() to set proper Content-Type
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Error retrieving preferences");
+  }
 });
 
 // This section will help you create a new record.
@@ -69,9 +73,9 @@ router.post("/", async (req, res) => {
 });
 
 // This section will help you update a record by id.
-router.patch("/:id", async (req, res) => {
+router.patch("/:email", async (req, res) => {
   try {
-    const query = { _id: new ObjectId(req.params.id) };
+    const query = { email: req.params.email };
     const updates = {
       $set: {
         cookingGoals: req.body.cookingGoals,

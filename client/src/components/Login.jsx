@@ -57,7 +57,31 @@ const Login = () => {
         if (!isSigningIn) {
             setIsSigningIn(true);
             try {
-                await doSignInWithGoogle();
+                // Assume doSignInWithGoogle returns a user credential
+                const userCredential = await doSignInWithGoogle();
+                const userEmail = userCredential.user.email;
+                
+                // Update the preferences state with the user's email
+                const updatedPreferences = { ...preferences, email: userEmail };
+    
+                try {
+                    let response = await fetch("http://localhost:5050/record", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify(updatedPreferences),
+                    });
+    
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+    
+                    console.log(updatedPreferences);
+                    setPreferences(null);
+                } catch (error) {
+                    console.error('A problem occurred with your fetch operation: ', error);
+                }
             } catch (err) {
                 setErrorMessage(err.message);
             } finally {
