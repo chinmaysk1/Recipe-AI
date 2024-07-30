@@ -35,11 +35,18 @@ const Sidebar = () => {
 
     const handleSave = async () => {
         setIsLoading(true);
-
-        const updatedPreferences = {
-            ...selectedOptions
-        };
-
+    
+        const updatedPreferences = {};
+    
+        questions.forEach((question) => {
+            const selected = selectedOptions[question.stateKey];
+            if (selected) {
+                updatedPreferences[question.stateKey] = question.multiSelect
+                    ? selected.map(option => option.value)
+                    : selected.value;
+            }
+        });
+    
         try {
             const encodedEmail = encodeURIComponent(email);
             const response = await fetch(`/record/${encodedEmail}`, {
@@ -49,8 +56,8 @@ const Sidebar = () => {
                 },
                 body: JSON.stringify(updatedPreferences),
             });
-
-            if (!response.ok) {;
+    
+            if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
             console.log('Preferences updated successfully');
@@ -64,7 +71,17 @@ const Sidebar = () => {
 
     useEffect(() => {
         if (preferences) {
-            const formattedPreferences = preferences;
+            const formattedPreferences = {};
+    
+            questions.forEach((question) => {
+                const pref = preferences[question.stateKey];
+                if (pref) {
+                    formattedPreferences[question.stateKey] = question.multiSelect
+                        ? Array.isArray(pref) ? pref.map(option => ({ value: option, label: option })) : []
+                        : { value: pref, label: pref };
+                }
+            });
+    
             setSelectedOptions(formattedPreferences);
         }
     }, [preferences]);
@@ -153,7 +170,7 @@ const Sidebar = () => {
                             <h6>{question.title}</h6>
                             <Select
                                 options={question.options.map(option => ({ value: option, label: option }))}
-                                value={selectedOptions[question.stateKey]}
+                                value={selectedOptions[question.stateKey] || (question.multiSelect ? [] : null)}
                                 onChange={(selectedOption) => handleChange(selectedOption, question.stateKey)}
                                 isMulti={question.multiSelect}
                                 className="select-dropdown"
