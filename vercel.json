@@ -1,6 +1,6 @@
 {
     "version": 2,
-    "name": "my-mern-app",
+    "name": "recipe-ai-try2",
     "builds": [
       {
         "src": "server/server.js",
@@ -23,6 +23,10 @@
         "src": "/(.*)",
         "dest": "/client/dist/$1"
       }
-    ]
+    ],
+    "env": {
+        "ATLAS_URI": "mongodb+srv://chinmaysk1:%40Chinmaysk1@recipeai.g0tjscl.mongodb.net/user?retryWrites=true&w=majority"
+    }
+
   }
   
