@@ -13,6 +13,13 @@ import { useAuth } from '../contexts/authContext';
 const Preferences = () => {
     const navigate = useNavigate();
     const [warning, setWarning] = useState(true);
+    const { currentUser } = useAuth();
+
+    useEffect(() => {
+        if (currentUser) {
+            navigate('/home');
+        }
+    }, [currentUser, navigate]);
 
     // Define all preferences questions and their options
     const questions = [

@@ -83,8 +83,10 @@ const Sidebar = () => {
             });
     
             setSelectedOptions(formattedPreferences);
-        }
-    }, [preferences]);
+ 
+        console.log(preferences);
+        console.log(email);
+    }}, [fetchPreferences]);
 
     const questions = [
     {
@@ -124,8 +126,6 @@ const Sidebar = () => {
       stateKey: 'cookingGoals',
     },
   ];
-
-  console.log(preferences);
 
   
 
